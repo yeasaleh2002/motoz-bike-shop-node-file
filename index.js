@@ -3,6 +3,7 @@ const app = express()
 const cors = require('cors');
 require('dotenv').config();
 const { MongoClient } = require('mongodb');
+const { ObjectID } = require('bson');
 
 const port = process.env.PORT || 5000;
 
@@ -38,6 +39,18 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
       })
 
  
+        //GET single product
+        app.get('/products/:id', async (req, res) => {
+          const id = req.params.id;
+          console.log('getting single products', id);
+          const  query = { _id: ObjectID(id) };
+          const product = await productsCollection.findOne(query);
+          res.json(product);
+      })
+
+
+
+
 
 
       }
