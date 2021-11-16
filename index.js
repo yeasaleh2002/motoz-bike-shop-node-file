@@ -25,10 +25,58 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         
          //  database and collection
          const database = client.db('bikes-shop-database');
+         
+         // products collection
          const productsCollection = database.collection('products');
+         
+         // order collection
          const ordersCollection = database.collection('oders');
+      
+         // ---------------user information collection in database------------------
+         const usersCollection = database.collection('users');
+      
+
 
          
+          // --------- check admin ? admin check korar process----------
+          app.get('/users/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email: email };
+            const user = await usersCollection.findOne(query);
+            let isAdmin = false;
+            if (user?.role === 'admin') {
+              isAdmin = true;
+            }
+            res.json({ admin: isAdmin });
+          })
+         
+
+
+
+         //-------- add or post data for users-----------
+              app.post('/users', async (req , res) => {
+              const user = req.body;
+              const result = await usersCollection.insertOne(user);
+              console.log(result);
+
+             res.json(result)
+          });
+
+
+
+              // --------- make admin for dashboard --------
+              app.put('/users/admin', async (req, res) => {
+                const user = req.body;
+                console.log('put', user);
+                const filter = { email: user.email };
+                const updateDoc = { $set: {role: 'admin'}};
+                const result = await usersCollection.updateOne(filter, updateDoc);
+                res.json(result);
+              })
+     
+
+
+
       
          //Get products Api
          app.get('/products', async(req, res) => {
