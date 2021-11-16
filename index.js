@@ -36,6 +36,13 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
          const usersCollection = database.collection('users');
       
 
+         // ---------------- review collection in database --------------
+         const reviewsCollection = database.collection('reviews')
+
+
+
+
+
 
          /* --------------------- user part start--------------------------- */
          
@@ -103,6 +110,41 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
      });
 
      /* ----------------------product part end --------------------- */
+
+
+
+       /* ----------------Review Part Start--------------------- */
+
+
+
+
+              //Get review Api
+              app.get('/reviews', async(req, res) => {
+                const cursor  = reviewsCollection.find({});
+                const reviews = await cursor.toArray();
+                res.send(reviews);
+            })
+
+            
+
+
+            // POST review
+            app.post('/reviews', async (req, res) => {
+                  
+              const addReview = req.body;
+              console.log('hit the post api', addReview);
+
+                const result = await reviewsCollection.insertOne(addReview);
+                console.log(result);
+                res.json(result)        
+            });
+
+
+
+
+       /* ----------------- Review part End------------------- */
+
+
 
 
   
