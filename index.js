@@ -95,6 +95,22 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
       })
 
 
+
+      // POST product
+      app.post('/products', async (req, res) => {
+             
+        const product = req.body;
+         console.log('hit the post api', product);
+
+          const product = await productsCollection.insertOne(product);
+          console.log(product);
+          res.json(product)
+         
+     });
+
+     
+
+
    
 
       //----------- get my Order 
