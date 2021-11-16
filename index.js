@@ -37,6 +37,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
       
 
 
+         /* --------------------- user part start--------------------------- */
          
           // --------- check admin ? admin check korar process----------
           app.get('/users/:email', async (req, res) => {
@@ -51,40 +52,35 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
           })
          
 
-
-
          //-------- add or post data for users-----------
               app.post('/users', async (req , res) => {
               const user = req.body;
               const result = await usersCollection.insertOne(user);
-              console.log(result);
-
-             res.json(result)
+              res.json(result)
           });
-
 
 
               // --------- make admin for dashboard --------
               app.put('/users/admin', async (req, res) => {
                 const user = req.body;
-                console.log('put', user);
                 const filter = { email: user.email };
                 const updateDoc = { $set: {role: 'admin'}};
                 const result = await usersCollection.updateOne(filter, updateDoc);
                 res.json(result);
               })
      
+              /* ------------------user part end ---------------------------- */
 
 
 
-      
+      /* --------------------- product part start-------------------- */
+
          //Get products Api
          app.get('/products', async(req, res) => {
           const cursor  = productsCollection.find({});
           const products = await cursor.toArray();
           res.send(products);
       })
-
  
         //GET single product
         app.get('/products/:id', async (req, res) => {
@@ -95,39 +91,32 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
       })
 
 
-
       // POST product
       app.post('/products', async (req, res) => {
              
-        const product = req.body;
-         console.log('hit the post api', product);
+        const addProduct = req.body;
+         console.log('hit the post api', addProduct);
 
-          const product = await productsCollection.insertOne(product);
-          console.log(product);
-          res.json(product)
-         
+          const result = await productsCollection.insertOne(addProduct);
+          console.log(result);
+          res.json(result)        
      });
 
-     
+     /* ----------------------product part end --------------------- */
 
 
-   
+  
+      /* ------------ Order part start---------------- */
 
       //----------- get my Order 
       app.get('/orders', async ( req, res) => {
-          
-    
+            
         const email = req.query?.email;
         const query = {email : email}
-         console.log(query)
-
-
         const cursor = ordersCollection.find(query);
          const orders = await cursor.toArray();
          res.json(orders);
        })
-
-
 
 
       //-------- post data for orders-------
@@ -136,7 +125,8 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         const result = await ordersCollection.insertOne(order);
         res.json(result)
       });
-
+      
+     /* -----------------order part end */
 
 
       }
