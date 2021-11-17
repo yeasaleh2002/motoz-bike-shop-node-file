@@ -109,6 +109,19 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
           res.json(result)        
      });
 
+
+
+   
+      // ----------- delete product--------------
+      app.delete('/products/:id', async (req, res) => {
+        const id = req.params.id;
+        const query = {_id:ObjectID(id)};
+        const result = await productsCollection.deleteOne(query);         
+        res.send(result);
+    });
+
+
+
      /* ----------------------product part end --------------------- */
 
 
@@ -140,6 +153,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             });
 
 
+         
 
 
        /* ----------------- Review part End------------------- */
@@ -150,7 +164,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
   
       /* ------------ Order part start---------------- */
 
-      //----------- get my Order 
+      //----------- get my Order---------- 
       app.get('/orders', async ( req, res) => {
             
         const email = req.query?.email;
@@ -168,6 +182,16 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         res.json(result)
       });
       
+ 
+      // ----------- delete order--------------
+            app.delete('/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = {_id:ObjectID(id)};
+            const result = await ordersCollection.deleteOne(query);         
+            res.send(result);
+        });
+
+
      /* -----------------order part end */
 
 
