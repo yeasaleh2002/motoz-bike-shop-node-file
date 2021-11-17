@@ -101,17 +101,13 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
       // POST product
       app.post('/products', async (req, res) => {
              
-        const addProduct = req.body;
-         console.log('hit the post api', addProduct);
-
+          const addProduct = req.body;       
           const result = await productsCollection.insertOne(addProduct);
           console.log(result);
           res.json(result)        
      });
 
-
-
-   
+     
       // ----------- delete product--------------
       app.delete('/products/:id', async (req, res) => {
         const id = req.params.id;
@@ -120,16 +116,12 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         res.send(result);
     });
 
-
-
      /* ----------------------product part end --------------------- */
 
 
 
+
        /* ----------------Review Part Start--------------------- */
-
-
-
 
               //Get review Api
               app.get('/reviews', async(req, res) => {
@@ -139,22 +131,12 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             })
 
             
-
-
             // POST review
-            app.post('/reviews', async (req, res) => {
-                  
-              const addReview = req.body;
-              console.log('hit the post api', addReview);
-
-                const result = await reviewsCollection.insertOne(addReview);
-                console.log(result);
+            app.post('/reviews', async (req, res) => {                 
+                const addReview = req.body;             
+                const result = await reviewsCollection.insertOne(addReview);             
                 res.json(result)        
             });
-
-
-         
-
 
        /* ----------------- Review part End------------------- */
 
@@ -163,6 +145,14 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
   
       /* ------------ Order part start---------------- */
+
+      //Get all order
+      app.get('/orders', async(req, res) => {
+        const cursor  = ordersCollection.find({});
+        const products = await cursor.toArray();
+        res.send(products);
+      })
+
 
       //----------- get my Order---------- 
       app.get('/orders', async ( req, res) => {
@@ -192,7 +182,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         });
 
 
-     /* -----------------order part end */
+     /* -----------------order part end --------------------------*/
 
 
       }
