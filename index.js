@@ -147,7 +147,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
       /* ------------ Order part start---------------- */
 
 
-      if(isAdmin = ture) {
+      if(user?.role === 'admin') {
         
         app.get('/orders', async ( req, res) => {
           const cursor = ordersCollection.find({});
