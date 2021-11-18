@@ -147,18 +147,31 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
       /* ------------ Order part start---------------- */
 
 
-      //----------- get my Order---------- 
-       app.get('/orders', async ( req, res) => {
-            
-        const email = req.query?.email;
-        const query = {email : email}
-        console.log( query)
+      if(isAdmin = ture) {
+        
+        app.get('/orders', async ( req, res) => {
+          const cursor = ordersCollection.find({});
+          const orders = await cursor.toArray();
+          res.json(orders);
+        })
+      }
+
+      else {
+        //----------- get my Order---------- 
+        app.get('/orders', async ( req, res) => {
+                    
+          const email = req.query?.email;
+          const query = {email : email}
+          console.log( query)
+
+          const cursor = ordersCollection.find(query);
+          const orders = await cursor.toArray();
+          res.json(orders);
+        })
+
+
+      }
       
-        const cursor = ordersCollection.find({});
-         const orders = await cursor.toArray();
-         res.json(orders);
-       })
- 
 
   
 
