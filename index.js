@@ -154,7 +154,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         const query = {email : email}
         console.log( query)
       
-        const cursor = ordersCollection.find(query);
+        const cursor = ordersCollection.find({});
          const orders = await cursor.toArray();
          res.json(orders);
        })
