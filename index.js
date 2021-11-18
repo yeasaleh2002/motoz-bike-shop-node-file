@@ -147,16 +147,16 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
       /* ------------ Order part start---------------- */
 
 
-      if(user?.role === 'admin') {
+      { user?.role === 'admin'?
         
         app.get('/orders', async ( req, res) => {
           const cursor = ordersCollection.find({});
           const orders = await cursor.toArray();
           res.json(orders);
         })
-      }
-
-      else {
+      
+     :
+    
         //----------- get my Order---------- 
         app.get('/orders', async ( req, res) => {
                     
