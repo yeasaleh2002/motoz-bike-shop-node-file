@@ -146,24 +146,21 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
   
       /* ------------ Order part start---------------- */
 
-      //Get all order
-      app.get('/orders', async(req, res) => {
-        const cursor  = ordersCollection.find({});
-        const products = await cursor.toArray();
-        res.send(products);
-      })
-
 
       //----------- get my Order---------- 
-      app.get('/orders', async ( req, res) => {
+       app.get('/orders', async ( req, res) => {
             
         const email = req.query?.email;
         const query = {email : email}
+        console.log( query)
+      
         const cursor = ordersCollection.find(query);
          const orders = await cursor.toArray();
          res.json(orders);
        })
+ 
 
+  
 
       //-------- post data for orders-------
       app.post('/oders', async (req , res) => {
@@ -197,7 +194,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 
 app.get('/', (req, res) => {
-    res.send('Hello Motoz Lover!Are You Ready?')
+    res.send('Hello Motoz Lover!Are You Ready???')
   })
   
   app.listen(port, () => {
