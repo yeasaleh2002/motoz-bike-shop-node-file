@@ -161,9 +161,6 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         })
 
 
-    
-  
-
       //-------- post data for orders-------
       app.post('/oders', async (req , res) => {
         const order = req.body;
@@ -172,7 +169,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
       });
       
  
-      // ----------- delete order--------------
+      // ----------- delete orders--------------
             app.delete('/oders/:id', async (req, res) => {
             const id = req.params.id;
             const query = {_id:ObjectID(id)};
