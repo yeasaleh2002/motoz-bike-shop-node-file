@@ -146,8 +146,22 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
   
       /* ------------ Order part start---------------- */
 
+        //Get orders Api
+        app.get('/oders', async(req, res) => {
+          const cursor  = ordersCollection.find({});
+          const orders = await cursor.toArray();
+          res.send(orders);
+        })
 
-     
+         // Get Spacific user order
+         app.get("/oders/:email", async (req, res) => {
+          const userEmail = req.params.email;
+          const query = { email: userEmail };
+          const cursor = ordersCollection.find(query);
+          const myOrders = await cursor.toArray();
+          res.send(myOrders);
+      });
+          /*   
         //----------- get my Order---------- 
         app.get('/oders', async ( req, res) => {
                     
@@ -159,7 +173,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
           const orders = await cursor.toArray();
           res.json(orders);
         })
-
+ */
 
       //-------- post data for orders-------
       app.post('/oders', async (req , res) => {
